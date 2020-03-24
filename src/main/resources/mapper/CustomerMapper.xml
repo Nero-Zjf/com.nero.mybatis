@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nero.mybatis.mapper.CustomerMapper">
+    <resultMap id="baseMap" type="com.nero.mybatis.domain.Customer">
+        <result property="custId" column="cust_id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="birthDate" column="birth_date" jdbcType="TIMESTAMP"/>
+        <result property="sex" column="sex" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--demo 添加一个客户，成功后将主键值返回填给custId-->
+    <insert id="addCustomer" parameterType="com.nero.mybatis.domain.Customer" keyProperty="custId"
+            useGeneratedKeys="true">
+        insert into customer (name,birth_date,sex)
+        values(#{name},#{birthDate},#{sex})
+    </insert>
+    <!--demo 添加一个客户，成功后将主键值返回填给custId（面向数据库不支持主键自动递增（例如 Oracle），通过将Mysql表自动递增主键的功能关闭来模拟）-->
+    <insert id="addCustomer2" parameterType="com.nero.mybatis.domain.Customer">
+        <selectKey keyProperty="custId" resultType="Integer" order="BEFORE">
+            select if(max(cust_id) is null,1,max(cust_id)+1) as newUid from customer
+        </selectKey>
+        insert into customer (name,birth_date,sex)
+        values(#{name},#{birthDate},#{sex})
+    </insert>
+    <!--    更新一个客户-->
+    <update id="updCustomer" parameterType="com.nero.mybatis.domain.Customer">
+        update customer set name = #{name},birth_date = #{birthDate} , sex = #{sex} where cust_id = #{custId}
+    </update>
+    <!-- 删除一个客户 -->
+    <delete id="delCustomerById" parameterType="Long">
+        delete from customer where cust_id = #{custId}
+    </delete>
+    <!--    根据custId获取客户-->
+    <select id="getCustomerById" parameterType="Long" resultType="com.nero.mybatis.domain.Customer">
+        select cust_id as custId,name,birth_date as birthDate,sex from customer where cust_id = #{custId}
+    </select>
+    <sql id="basicColumns">cust_id as custId,name,birth_date as birthDate,sex</sql>
+    <!--    根据名称和性别获取客户-->
+    <select id="getCustomerByNameSex" resultType="com.nero.mybatis.domain.Customer">
+        select cust_id as custId,name,birth_date as birthDate,sex from customer where name = #{arg0} and sex = #{arg1}
+        <!--采用顺序传参法 由于版本问题，在MyBatis3.4.6版不能直接使用#{0}要使用 #{arg0}-->
+        <!--select cust_id as custId,name,birth_date as birthDate,sex from customer where name = #{0} and sex = #{1}-->
+        <!--select cust_id as custId,name,birth_date as birthDate,sex from customer where name = #{arg0} and sex = #{arg1}-->
+
+    </select>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nero.mybatis.mapper.UserMapper">
+    <!-- 根据id查询一个用户信息 -->
+    <select id="getUserById" parameterType="Long"
+            resultType="com.nero.mybatis.domain.User">
+        select * from user where id = #{id}
+    </select>
+    <!-- 查询所有用户信息 -->
+    <select id="getAllUser" resultType="com.nero.mybatis.domain.User">
+        select * from user
+    </select>
+    <!-- 添加一个用户，#{name}为 com.nero.mybatis.domain.User 的属性值 -->
+    <insert id="addUser" parameterType="com.nero.mybatis.domain.User">
+        insert into user (id,name,sex)
+        values(#{id},#{name},#{sex})
+    </insert>
+    <!--修改一个用户 -->
+    <update id="updateUser" parameterType="com.nero.mybatis.domain.User">
+        update user set name =
+        #{name},sex = #{sex} where id = #{id}
+    </update>
+    <!-- 删除一个用户 -->
+    <delete id="deleteUser" parameterType="Long">
+        delete from user where id
+        = #{id}
+    </delete>
+</mapper>
