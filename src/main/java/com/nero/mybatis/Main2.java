@@ -25,31 +25,28 @@ public class Main2 {
 
         SqlSession sqlSession = ssf.openSession();
         //addCustomer
-//        Customer customerAdd = new Customer(23231,"eerddf", "test", "432423423555"
-//        , "1322555", "nero", new Date(), 1, new Date());
-//        sqlSession.insert("com.nero.mybatis.mapper.CustomerMapper.addCustomer", customerAdd);
-//        System.out.println(customerAdd);
+        Customer customerAdd = new Customer("nero", new Date(), 1);
+        sqlSession.insert("com.nero.mybatis.mapper.CustomerMapper.addCustomer", customerAdd);
+        //sqlSession.insert("com.nero.mybatis.mapper.CustomerMapper.addCustomer2", customerAdd);//addCustomer2
+        System.out.println(customerAdd);
+        System.out.println("新增数据的custId："+ customerAdd.getCustId());
 
-        //addCustomer2
-        Customer customerAdd2 = new Customer("nero", new Date(), 1);
-        sqlSession.
-                insert("com.nero.mybatis.mapper.CustomerMapper.addCustomer2", customerAdd2);
-        System.out.println(customerAdd2);
         //updCustomer
-        customerAdd2.setName("update");
-        sqlSession.update("com.nero.mybatis.mapper.CustomerMapper.updCustomer", customerAdd2);
-        System.out.println(customerAdd2);
+        customerAdd.setName("update");
+        sqlSession.update("com.nero.mybatis.mapper.CustomerMapper.updCustomer", customerAdd);
+        System.out.println(customerAdd);
+
         //getCustomerById
-        Customer reCust = sqlSession.selectOne("com.nero.mybatis.mapper.CustomerMapper.getCustomerById", customerAdd2.getCustId());
+        Customer reCust = sqlSession.selectOne("com.nero.mybatis.mapper.CustomerMapper.getCustomerById", customerAdd.getCustId());
         System.out.println(reCust);
 
         //getCustomerByNameSex
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
-        List<Customer> custList = mapper.getCustomerByNameSex(customerAdd2.getName(), customerAdd2.getSex());
+        List<Customer> custList = mapper.getCustomerByNameSex(customerAdd.getName(), customerAdd.getSex());
         System.out.println(custList);
 
         //delCustomerById
-        sqlSession.update("com.nero.mybatis.mapper.CustomerMapper.delCustomerById", customerAdd2.getCustId());
+        sqlSession.update("com.nero.mybatis.mapper.CustomerMapper.delCustomerById", customerAdd.getCustId());
 
         sqlSession.commit();
         sqlSession.close();

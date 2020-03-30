@@ -2,6 +2,7 @@
 文档：
 - Mybatis-第一个MyBatis程序
 - Mybatis-SqlSessionFactory介绍及其创建方式
+- Mybatis-标签-select、insert、update、delete、sql
 
 ## SqlSessionFactory创建方式demo
 1. 使用 XML 构建 SqlSessionFactory
@@ -37,3 +38,8 @@ CREATE TABLE `customer` (
   PRIMARY KEY (`cust_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户';
 ```
+
+## Main2
+Main2对Customer表进行增删改查等操作，演示了一下内容：
+- Mybatis-标签-select、insert、update、delete、sql
+- Mybatis-传递多个参数

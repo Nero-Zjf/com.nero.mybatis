@@ -34,7 +34,10 @@
     <!--    根据custId获取客户-->
     <select id="getCustomerById" parameterType="Long" resultType="com.nero.mybatis.domain.Customer">
         select cust_id as custId,name,birth_date as birthDate,sex from customer where cust_id = #{custId}
+        <!--下面演示引用sql标签定义的内容-->
+        <!--select <include refid="basicColumns"></include> from customer where cust_id = #{custId}-->
     </select>
+    <!--<sql> 元素的作用在于可以定义 SQL 语句的一部分（代码片段），以方便后面的 SQL 语句引用它，例如反复使用的列名。-->
     <sql id="basicColumns">cust_id as custId,name,birth_date as birthDate,sex</sql>
     <!--    根据名称和性别获取客户-->
     <select id="getCustomerByNameSex" resultType="com.nero.mybatis.domain.Customer">
@@ -42,7 +45,6 @@
         <!--采用顺序传参法 由于版本问题，在MyBatis3.4.6版不能直接使用#{0}要使用 #{arg0}-->
         <!--select cust_id as custId,name,birth_date as birthDate,sex from customer where name = #{0} and sex = #{1}-->
         <!--select cust_id as custId,name,birth_date as birthDate,sex from customer where name = #{arg0} and sex = #{arg1}-->
-
     </select>
 
 </mapper>
